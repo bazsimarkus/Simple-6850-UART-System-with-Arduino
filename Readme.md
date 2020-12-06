@@ -1,5 +1,4 @@
 ﻿# Simple 6850 ACIA System
-*Created by Balázs Márkus in 2018*
 
 This circuit provides a simple test environment for a **6850 Asynchronous Communications Interface Adapter (ACIA) ** chip. In this specific example I used an *MC68B50-P* chip, but this software is forward compatible with all of the serial IC-s based on the 6850 architecture. 
 
