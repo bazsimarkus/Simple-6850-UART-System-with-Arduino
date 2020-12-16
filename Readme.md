@@ -47,7 +47,7 @@ Then select the COM port of your USB-TTL Serial converter, and open up the seria
 
 ## Development
 
-The project was developed using Arduino IDE 1.6.9 (https://www.arduino.cc/) and the testing was made with RealTerm (https://realterm.sourceforge.io/)
+The project was developed using the Arduino IDE (https://www.arduino.cc/) and the testing was made with RealTerm (https://realterm.sourceforge.io/)
 
 ## Notes
 
