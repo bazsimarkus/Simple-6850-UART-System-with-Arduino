@@ -111,6 +111,7 @@ const char testString[] PROGMEM = {"TESTACIA"}; // We store the string in the PR
  * initialization tasks and configuration settings.
  */
 void setup() {
+	pinMode(LED_OUTPUT, OUTPUT);
     setUartPinsToOutput();
     initClocks();
     initUart();  // Initializing 6850 ACIA
