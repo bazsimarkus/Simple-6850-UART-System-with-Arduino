@@ -237,21 +237,22 @@ void writeDataBus(int data)
  * Each step in this function is essential for proper serial communication, ensuring that data is correctly transmitted and received.
  */
 void writeCharToUart(int data) {
-	// Write data register
-    digitalWrite(ENABLE, LOW);
+    // Write data register
+    digitalWrite(ENABLE, LOW); // Disabling (to prevent transmitting double characters)
     delay(DELAY_SHORT);
-    digitalWrite(RWN, LOW);
+    digitalWrite(RS, HIGH); // Select the data register
     delay(DELAY_SHORT);
-    digitalWrite(RS, HIGH);
+    digitalWrite(CS2N, LOW); // Set CS2N signal (based on timing diagram)
     delay(DELAY_SHORT);
-    digitalWrite(CS2N, HIGH);
+    digitalWrite(RWN, LOW); // Set RWN signal (based on timing diagram)
     delay(DELAY_SHORT);
 
-    writeDataBus(data);
-
-    digitalWrite(CS2N, LOW);
+    writeDataBus(data); // Set data bus with the character (8-bit)
     delay(DELAY_SHORT);
-    digitalWrite(ENABLE, HIGH);
+
+    digitalWrite(ENABLE, HIGH); // Enable after bus has been properly set, now the character can be shifted out
+    delay(DELAY_SHORT);
+    digitalWrite(ENABLE, LOW); // Stop transmission
     delay(DELAY_SHORT);
 }
 
@@ -376,7 +377,7 @@ void initClocks() {
 void initUart() {
     // Init Control Register
     delay(DELAY_SHORT);         // Delay for stability after power-up
-    digitalWrite(ENABLE, LOW);  // Enable the ACIA chip
+    digitalWrite(ENABLE, LOW);  // Disable the ACIA chip (enable only after bus has been properly set)
     delay(DELAY_SHORT);         // Delay after enabling chip
     digitalWrite(RWN, LOW);     // Set R/W line to write mode
     delay(DELAY_SHORT);         // Delay after setting write mode
@@ -394,8 +395,10 @@ void initUart() {
 
     digitalWrite(CS2N, LOW);     // Select the chip for normal operation
     delay(DELAY_SHORT);         // Delay after selecting chip
-    digitalWrite(ENABLE, HIGH); // Disable chip
-    delay(DELAY_SHORT);         // Delay after disabling
+    digitalWrite(ENABLE, HIGH); // Enable after bus has been properly set
+    delay(DELAY_SHORT);         // Delay after enabling
+    digitalWrite(ENABLE, LOW); // Disable chip
+    delay(DELAY_SHORT);         // Delay after disabling (to prevent transmitting double characters)
 
     // Indicate the end of initialization by blinking the onboard LED
     blinkLed();
